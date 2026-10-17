@@ -1,0 +1,26 @@
+name: Practice Site Validation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check website files
+        run: |
+          test -f site/index.html
+          test -f site/app.js
+          test -f site/data.json
+          echo "All three website files exist."
+
+      - name: Validate JSON
+        run: python -m json.tool site/data.json > /dev/null
+
+      - name: Report success
+        run: echo "Practice workflow completed successfully."
